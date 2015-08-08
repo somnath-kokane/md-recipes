@@ -1,0 +1,33 @@
+{
+  "name": "md-recipes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build-js": "browserify app/src/index.js -o public/bundle.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run build-js && node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/somnath-kokane/md-recipes.git"
+  },
+  "author": "Somnath Kokaney <in.somnath.kokane@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/somnath-kokane/md-recipes/issues"
+  },
+  "homepage": "https://github.com/somnath-kokane/md-recipes#readme",
+  "devDependencies": {
+    "browserify": "^11.0.1"
+  },
+  "dependencies": {
+    "express": "^4.13.3"
+  },
+  "browser": {
+    "angular": "./app/lib/angular.js",
+    "angular-animate": "./app/lib/angular-animate.js",
+    "angular-aria": "./app/lib/angular-aria.js",
+    "angular-material": "./app/lib/angular-material.js"
+  }
+}

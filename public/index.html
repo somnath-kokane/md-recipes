@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" >
+    <head>
+        <title>Angular Material - Starter App</title>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="vendor/angular-material/angular-material.css"/>
+        <link rel="stylesheet" href="assets/css/style.css"/>
+
+    </head>
+    <body ng-controller="ShellCtrl as shell" layout="row">
+        <script src="bundle.js"></script>
+        <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2"
+                    md-component-id="left"
+                    md-is-locked-open="$mdMedia('gt-sm')">
+
+            <md-toolbar class="md-whiteframe-z1">
+                <h1>Recipes</h1>
+            </md-toolbar>
+
+            <md-list>
+                <md-list-item ng-repeat="item in shell.sidenav">
+                    <md-button ng-click="shell.selectNav(item)" ng-class="{'selected' : item === shell.selected }">
+                        <md-icon md-font-set="material-icons" class="avatar">{{item.icon}}</md-icon>
+                        {{item.text}}
+                    </md-button>
+            </md-list-item>
+            </md-list>  
+        </md-sidenav>
+        <div flex layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">
+            <md-toolbar layout="row" class="md-whiteframe-z1">
+              <md-button class="menu" hide-gt-sm ng-click="shell.toggleSidenav()" aria-label="Show User List">
+                <md-icon md-font-set="material-icons">menu</md-icon>
+              </md-button>
+              <h1>Recipes</h1>
+            </md-toolbar>
+            <md-content flex id="content">
+            </md-content>
+        </div>
+    </body>
+</html>
