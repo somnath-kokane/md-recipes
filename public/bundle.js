@@ -3,12 +3,12 @@
 require('../../bower_components/angular-animate/angular-animate');
 module.exports = 'ngAnimate';
 
-},{"../../bower_components/angular-animate/angular-animate":16}],2:[function(require,module,exports){
+},{"../../bower_components/angular-animate/angular-animate":22}],2:[function(require,module,exports){
 
 require('../../bower_components/angular-aria/angular-aria');
 module.exports = 'ngAria';
 
-},{"../../bower_components/angular-aria/angular-aria":17}],3:[function(require,module,exports){
+},{"../../bower_components/angular-aria/angular-aria":23}],3:[function(require,module,exports){
 // Should already be required, here for clarity
 require('./angular');
 
@@ -22,17 +22,17 @@ require('../../bower_components/angular-material/angular-material');
 // Export namespace
 module.exports = 'ngMaterial';
 
-},{"../../bower_components/angular-material/angular-material":18,"./angular":5,"./angular-animate":1,"./angular-aria":2}],4:[function(require,module,exports){
+},{"../../bower_components/angular-material/angular-material":24,"./angular":5,"./angular-animate":1,"./angular-aria":2}],4:[function(require,module,exports){
 
 require('./angular');
 require('../../bower_components/angular-route/angular-route');
 module.exports = 'ngRoute';
-},{"../../bower_components/angular-route/angular-route":19,"./angular":5}],5:[function(require,module,exports){
+},{"../../bower_components/angular-route/angular-route":25,"./angular":5}],5:[function(require,module,exports){
 
 require('../../bower_components/angular/angular');
 module.exports = angular;
 
-},{"../../bower_components/angular/angular":20}],6:[function(require,module,exports){
+},{"../../bower_components/angular/angular":26}],6:[function(require,module,exports){
 'use strict';
 
 require('./module');
@@ -49,6 +49,7 @@ angular
 
 function config($routeProvider, $locationProvider){
     $locationProvider.hashPrefix('!');
+    $routeProvider.otherwise({redirectTo: '/recipe'});
 }
 
 function run($rootScope, $templateCache){
@@ -65,7 +66,7 @@ angular.module('app')
 function ShellCtrl($location, $mdSidenav, $mdBottomSheet, $q){
     var self = this;
     self.sidenav = [
-        {text: 'Home', icon: 'home', path: '/'},
+        {text: 'Home', icon: 'home', path: '/recipe'},
         {text: 'Category', icon: 'device_hub', path: '/category'},
         {text: 'Explore', icon:'explore', path: '/'},
         {text: 'Favorites', icon:'favorite', path: '/'},
@@ -85,6 +86,10 @@ function ShellCtrl($location, $mdSidenav, $mdBottomSheet, $q){
         self.toggleSidenav();
         $location.path(path);
     };
+
+    self.locationPath = function(path){
+        $location.path(path);
+    }
 }
 
 },{}],9:[function(require,module,exports){
@@ -256,7 +261,7 @@ function run($templateCache){
 
     $templateCache.put(
         'category/list.html', 
-        "<md-grid-list\n      md-cols-sm=\"1\" md-cols-md=\"2\" md-cols-gt-md=\"2\" \n      md-row-height-gt-md=\"4:3\" md-row-height=\"4:3\">\n    <md-grid-tile ng-repeat=\"item in vm.categories\">\n    <md-card>\n        <a href=\"javascript:void(0)\" ng-click=\"vm.selectCategory(item)\">\n            <img class=\"md-card-image\" ng-src=\"{{item.image}}\" alt=\"{{item.title\"}}>\n        </a>\n        <md-card-content>\n            <a href=\"javascript:void(0)\" ng-click=\"vm.selectCategory(item)\">\n                <h2 class=\"md-title\">{{item.title}}</h2>\n            </a>\n        </md-card-content>\n    </md-card>\n    </md-grid-tile>\n</md-grid-list>"
+        "<md-grid-list\n      md-cols-sm=\"1\" md-cols-md=\"2\" md-cols-gt-md=\"2\" \n      md-row-height-gt-md=\"4:3\" md-row-height=\"4:3\">\n    <md-grid-tile ng-repeat=\"item in vm.categories\">\n    <md-card>\n        <a href=\"javascript:void(0)\" ng-click=\"shell.locationPath('/recipe')\">\n            <img class=\"md-card-image\" ng-src=\"{{item.image}}\" alt=\"{{item.title\"}}>\n        </a>\n        <md-card-content>\n            <a href=\"javascript:void(0)\" ng-click=\"shell.locationPath('/recipe')\">\n                <h2 class=\"md-title\">{{item.title}}</h2>\n            </a>\n        </md-card-content>\n    </md-card>\n    </md-grid-tile>\n</md-grid-list>"
     );
     $templateCache.put(
         'category/form.html', 
@@ -279,7 +284,8 @@ var angular = require('angular');
 angular
     .module('main', [
         require('./app'), 
-        require('./category')
+        require('./category'),
+        require('./recipe')
     ]);
 
 angular
@@ -287,7 +293,188 @@ angular
     .ready(function(){
         angular.bootstrap(document, ['main']);
     });
-},{"./app":6,"./category":12,"angular":5}],16:[function(require,module,exports){
+},{"./app":6,"./category":12,"./recipe":18,"angular":5}],16:[function(require,module,exports){
+'use strict';
+
+angular
+    .module('app.recipe')
+    .controller('RecipeDetailCtrl', ['$scope', '$route', 'Recipe', RecipeDetailCtrl]);
+
+function RecipeDetailCtrl($scope, $route, Recipe){
+    var self = this;
+    init();
+
+    function init(){
+        $scope.page.toolbar = 'recipe/detail/toolbar.html';
+        var id = $route.current.params.id;
+        Recipe
+            .getById(id)
+            .then(function(result){
+                self.recipe = angular.copy(result);
+                $scope.page.title = self.recipe.title;
+            })
+            .catch(function(err){
+                console.error(err);
+            });
+    }
+}
+},{}],17:[function(require,module,exports){
+'use strict';
+
+angular
+    .module('app.recipe')
+    .controller('RecipeFormCtrl', ['$scope', '$route', 'Recipe', RecipeFormCtrl]);
+
+function RecipeFormCtrl($scope, $route, Recipe){
+    var self = this;
+    init();
+
+    function init(){
+        $scope.page.toolbar = 'recipe/form/toolbar.html';
+        var id = $route.current.params.id;
+        Recipe
+            .getById(id)
+            .then(function(result){
+                self.recipe = angular.copy(result);
+                $scope.page.title = result.title;
+            })
+            .catch(function(err){
+                console.error(err);
+            });
+    }
+}
+},{}],18:[function(require,module,exports){
+'use strict';
+
+require('./module');
+require('./recipe');
+require('./list-ctrl');
+require('./form-ctrl');
+require('./detail-ctrl');
+
+module.exports = 'app.recipe';
+},{"./detail-ctrl":16,"./form-ctrl":17,"./list-ctrl":19,"./module":20,"./recipe":21}],19:[function(require,module,exports){
+'use strict';
+
+angular
+    .module('app.recipe')
+    .controller('RecipeListCtrl', ['$scope', 'Recipe', RecipeListCtrl]);
+
+function RecipeListCtrl($scope, Recipe){
+    var self = this;
+    init();
+
+    function init(){
+        $scope.page.toolbar = 'recipe/list/toolbar.html';
+        Recipe
+            .getAll()
+            .then(function(result){
+                console.log('result', result);
+                self.recipes = angular.copy(result);
+            })
+            .catch(function(err){
+                console.error(err);
+            });
+    }
+}
+},{}],20:[function(require,module,exports){
+'use strict';
+
+
+
+angular
+    .module('app.recipe', [])
+    .config(['$routeProvider', config])
+    .run(['$templateCache', run]);
+
+function config($routeProvider){
+    $routeProvider.when('/recipe/', {
+        templateUrl: 'recipe/list.html',
+        controller: 'RecipeListCtrl',
+        controllerAs: 'vm'
+    });
+    $routeProvider.when('/recipe/:id/', {
+        templateUrl: 'recipe/form.html',
+        controller: 'RecipeFormCtrl',
+        controllerAs: 'vm'
+    });
+    $routeProvider.when('/recipe/add', {
+        templateUrl: 'recipe/form.html',
+        controller: 'RecipeFormCtrl',
+        controllerAs: 'vm'
+    });
+    $routeProvider.when('/recipe/:id/detail', {
+        templateUrl: 'recipe/detail.html',
+        controller: 'RecipeDetailCtrl',
+        controllerAs: 'vm'
+    });
+}
+
+function run($templateCache){
+    
+    $templateCache.put(
+        'recipe/list.html', 
+        "<md-grid-list\n      md-cols-sm=\"1\" md-cols-md=\"2\" md-cols-gt-md=\"2\" \n      md-row-height-gt-md=\"4:3\" md-row-height=\"4:3\">\n    <md-grid-tile ng-repeat=\"item in vm.recipes\">\n    <md-card>\n        <a href=\"javascript:void(0)\" \n            ng-click=\"shell.locationPath('/recipe/' + item._id + '/detail')\">\n            <img class=\"md-card-image\" ng-src=\"{{item.image}}\" alt=\"{{item.title\"}}>\n        </a>\n        <md-card-content>\n            <a href=\"javascript:void(0)\" \n                ng-click=\"shell.locationPath('/recipe/' + item._id + '/detail')\">\n                <h2 class=\"md-title\">{{item.title}}</h2>\n            </a>\n        </md-card-content>\n    </md-card>\n    </md-grid-tile>\n</md-grid-list>");
+    $templateCache.put(
+        'recipe/form.html', 
+        "<pre>{{vm.recipe|json}}</pre>");
+    $templateCache.put(
+        'recipe/detail.html', 
+        "<md-grid-list\n      md-cols-sm=\"1\" md-cols-md=\"2\" md-cols-gt-md=\"2\" \n      md-row-height-gt-md=\"4:3\" md-row-height=\"4:3\">\n    <md-grid-tile>\n        <md-card>\n            <img class=\"md-card-image\" ng-src=\"{{vm.recipe.image}}\" alt=\"{{vm.recipe.title}}\">\n            <md-card-content>\n                <h2 class=\"md-title\">{{vm.recipe.title}}</h2>\n                <p>{{vm.recipe.description}}</p>\n            </md-card-content>\n        </md-card>\n    </md-grid-tile>\n</md-grid-list>");
+    $templateCache.put(
+        'recipe/list/toolbar.html', 
+        "<md-button class=\"md-icon-button\" ng-click=\"shell.locationPath('/category')\">\n    <md-icon md-font-set=\"material-icons\">arrow_back</md-icon>\n</md-button>\n<h2>\n    <span>Recipes</span>\n</h2>\n<span flex></span>\n<md-menu>\n    <md-button class=\"md-icon-button\" area-label=\"More\" ng-click=\"$mdOpenMenu()\">\n        <md-icon md-font-set=\"material-icons\">more_vert</md-icon>\n    </md-button>\n    <md-menu-content width=\"4\">\n        <md-menu-item>\n            <md-button>\n                <md-icon md-font-set=\"material-icons\">add_circle</md-icon>\n                Add New Recipe\n            </md-button>\n        </md-menu-item>\n    </md-menu-content>\n</md-menu>");
+    $templateCache.put(
+        'recipe/form/toolbar.html', 
+        "<md-button class=\"md-icon-button\" ng-click=\"shell.locationPath('/recipe')\">\n    <md-icon md-font-set=\"material-icons\">arrow_back</md-icon>\n</md-button>\n<h2>\n    <span>{{page.title}}</span>\n</h2>");
+    $templateCache.put(
+        'recipe/detail/toolbar.html', 
+        "<md-button class=\"md-icon-button\" ng-click=\"shell.locationPath('/recipe')\">\n    <md-icon md-font-set=\"material-icons\">arrow_back</md-icon>\n</md-button>\n<h2>\n    <span>{{page.title}}</span>\n</h2>");
+}
+},{}],21:[function(require,module,exports){
+'use strict';
+
+angular
+    .module('app.recipe')
+    .factory('Recipe',['$http', Recipe]);
+
+function Recipe($http){
+
+    return {
+        getAll: function(){
+            var url = '/recipe/';
+            return $http.get(url).then(function(res){
+                return res.data;
+            });
+        },
+        getById: function(id){
+            var url = '/recipe/' + id;
+            return $http.get(url).then(function(res){
+                return res.data;
+            });
+        },
+        create: function(data){
+            var url = '/recipe/';
+            return $http.post(url, data).then(function(res){
+                return res.data;
+            });
+        },
+        update: function(id, data){
+            var url = '/recipe/' + id;
+            return $http.put(url, data).then(function(res){
+                return res.data;
+            });
+        },
+        delete: function(id){
+            var url = '/recipe/' + id;
+            return $http.delete(url).then(function(res){
+                return res.data;
+            });
+        }
+
+    }
+}
+},{}],22:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.3
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -4010,7 +4197,7 @@ angular.module('ngAnimate', [])
 
 })(window, window.angular);
 
-},{}],17:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.3
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -4405,7 +4592,7 @@ ngAriaModule.directive('ngShow', ['$aria', function($aria) {
 
 })(window, window.angular);
 
-},{}],18:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 /*!
  * Angular Material Design
  * https://github.com/angular/material
@@ -19812,7 +19999,7 @@ angular.module("material.core").constant("$MD_THEME_CSS", "/* mixin definition ;
 
 
 })(window, window.angular);
-},{}],19:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.3
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -20806,7 +20993,7 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],20:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.3
  * (c) 2010-2015 Google, Inc. http://angularjs.org

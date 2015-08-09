@@ -1,0 +1,20 @@
+<md-button class="md-icon-button" ng-click="shell.locationPath('/category')">
+    <md-icon md-font-set="material-icons">arrow_back</md-icon>
+</md-button>
+<h2>
+    <span>Recipes</span>
+</h2>
+<span flex></span>
+<md-menu>
+    <md-button class="md-icon-button" area-label="More" ng-click="$mdOpenMenu()">
+        <md-icon md-font-set="material-icons">more_vert</md-icon>
+    </md-button>
+    <md-menu-content width="4">
+        <md-menu-item>
+            <md-button>
+                <md-icon md-font-set="material-icons">add_circle</md-icon>
+                Add New Recipe
+            </md-button>
+        </md-menu-item>
+    </md-menu-content>
+</md-menu>

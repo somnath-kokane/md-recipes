@@ -7,6 +7,7 @@ angular
 
 function config($routeProvider, $locationProvider){
     $locationProvider.hashPrefix('!');
+    $routeProvider.otherwise({redirectTo: '/recipe'});
 }
 
 function run($rootScope, $templateCache){

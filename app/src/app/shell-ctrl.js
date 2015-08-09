@@ -6,7 +6,7 @@ angular.module('app')
 function ShellCtrl($location, $mdSidenav, $mdBottomSheet, $q){
     var self = this;
     self.sidenav = [
-        {text: 'Home', icon: 'home', path: '/'},
+        {text: 'Home', icon: 'home', path: '/recipe'},
         {text: 'Category', icon: 'device_hub', path: '/category'},
         {text: 'Explore', icon:'explore', path: '/'},
         {text: 'Favorites', icon:'favorite', path: '/'},
@@ -26,4 +26,8 @@ function ShellCtrl($location, $mdSidenav, $mdBottomSheet, $q){
         self.toggleSidenav();
         $location.path(path);
     };
+
+    self.locationPath = function(path){
+        $location.path(path);
+    }
 }

@@ -5,7 +5,8 @@ var angular = require('angular');
 angular
     .module('main', [
         require('./app'), 
-        require('./category')
+        require('./category'),
+        require('./recipe')
     ]);
 
 angular
