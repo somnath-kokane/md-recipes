@@ -1,20 +1,19 @@
 'use strict';
 
 var express = require('express');
+var Recipe = require('./recipe');
 var router = express.Router();
-var Category = require('./category');
 
 router.get('/', getAll);
 router.get('/:id/', getById);
 router.post('/', create);
 router.put('/:id/', update);
-router.delete('/:id', remove);
+router.delete('/:id/', remove);
 
 module.exports = router;
 
 function getAll(req, res, next){
-    var options = {};
-    Category.find(function(err, result){
+    Recipe.find(function(err, result){
         if(err){
             return next(err);
         }
@@ -23,8 +22,7 @@ function getAll(req, res, next){
 }
 
 function getById(req, res, next){
-    var id = req.params.id;
-    Category.findById(id, function(err, result){
+    Recipe.findById(req.params.id, function(err, result){
         if(null === result){
             err = new Error('Record Not Found');
             err.status = 404;
@@ -32,13 +30,13 @@ function getById(req, res, next){
         if(err){
             return next(err);
         }
+
         res.json(result);
     });
 }
 
 function create(req, res, next){
-    var data = req.body;
-    Category.create(data, function(err, result){
+    Recipe.create(req.body, function(err, result){
         if(err){
             return next(err);
         }
@@ -47,9 +45,7 @@ function create(req, res, next){
 }
 
 function update(req, res, next){
-    var id = req.params.id;
-    var data = req.body;
-    Category.findByIdAndUpdate(id, data, function(err, result){
+    Recipe.findByIdAndUpdate(req.params.id, req.body, function(err, result){
         if(null === result){
             err = new Error('Record Not Found');
             err.status = 404;
@@ -57,13 +53,12 @@ function update(req, res, next){
         if(err){
             return next(err);
         }
-        return res.send(result);
+        res.json(result);
     });
 }
 
 function remove(req, res, next){
-    var id = req.params.id;
-    Category.findByIdAndRemove(id, function(err, result){
+    Recipe.findByIdAndRemove(req.params.id, function(err, result){
         if(null === result){
             err = new Error('Record Not Found');
             err.status = 404;
