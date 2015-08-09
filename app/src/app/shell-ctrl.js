@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('main')
+angular.module('app')
     .controller('ShellCtrl', ['$location', '$mdSidenav', '$mdBottomSheet', '$q', ShellCtrl]);
 
 function ShellCtrl($location, $mdSidenav, $mdBottomSheet, $q){

@@ -35,12 +35,13 @@
         </md-sidenav>
         <div flex layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">
             <md-toolbar layout="row" class="md-whiteframe-z1">
-              <md-button class="menu" hide-gt-sm ng-click="shell.toggleSidenav()" aria-label="Show User List">
+              <md-button class="menu" hide-gt-sm ng-click="shell.toggleSidenav()">
                 <md-icon md-font-set="material-icons">menu</md-icon>
               </md-button>
-              <h1>Recipes</h1>
+              <div class="md-toolbar-tools" ng-include="page.toolbar"></div>
             </md-toolbar>
             <md-content flex id="content">
+                <ng-view></ng-view>
             </md-content>
         </div>
     </body>

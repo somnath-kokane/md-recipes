@@ -39,61 +39,18 @@ md-list .md-button {
 
 /* Primary content area */
 
-#content {
-  overflow: hidden;
-}
-
 #content  {
   padding-left: 40px;
   padding-right: 40px;
   padding-top: 5px;
 }
 
-#content .md-button.contact {
-  background-color: transparent;
-  border: none;
-  width: 48px;
-  height: 48px;
-  margin: 8px auto 16px 0;
-  position: absolute;
-  top: 10px;
-  right: 40px;
-}
 
 #content md-icon.avatar {
   margin-top: 10px;
 }
 
-#content .md-button.contact > md-icon {
-  fill:black;
-  width:36px;
-  height:36px;
-}
 
-md-button.menuBtn > md-icon {
-  fill:white;
-  width:24px;
-  height:24px;
-}
-
-#content .md-button.contact:active > md-icon {
-  background-color: #dadada;
-  border-radius: 75%;
-  padding:4px;
-  transition: all 100ms ease-out 30ms;
-}
-
-#content img {
-  display: block;
-  height: auto;
-  max-width: 500px;
-}
-
-/* Utils */
-
-.content-wrapper {
-  position: relative;
-}
 
 /* Typography support coming in 0.8.0 */
 
