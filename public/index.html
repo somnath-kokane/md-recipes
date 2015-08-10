@@ -16,32 +16,52 @@
     </head>
     <body ng-controller="ShellCtrl as shell" layout="row">
         <script src="bundle.js"></script>
-        <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2"
-                    md-component-id="left"
-                    md-is-locked-open="$mdMedia('gt-sm')">
-
-            <md-toolbar class="md-whiteframe-z1">
-                <h1>Recipes</h1>
+        <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" 
+            md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+            <md-toolbar class="md-tall md-hue-2">
+                <span flex></span>
+                <div class="md-toolbar-tools-bottom inset" layout="column">
+                    <span flex></span>
+                    <h3>Recipes</h3>
+                </div>
             </md-toolbar>
-
             <md-list>
-                <md-list-item ng-repeat="item in shell.sidenav">
-                    <md-button ng-click="shell.selectNav(item)" ng-class="{'selected' : item === shell.selected }">
-                        <md-icon md-font-set="material-icons" class="avatar">{{item.icon}}</md-icon>
-                        {{item.text}}
+                <md-list-item ng-repeat="item in shell.sidenav" >
+                    <md-button ng-click="shell.selectNav(item)" 
+                        ng-class="{'selected' : item === shell.selected }">
+                        <md-item-content layout="row" layout-align="start center">
+                            <div class="inset">
+                            <md-icon md-font-set="material-icons">{{item.icon}}</md-icon>
+                            </div>
+                            <div class="inset">{{item.text}}</div>
+                        </md-item-content>
+                        
                     </md-button>
             </md-list-item>
             </md-list>  
         </md-sidenav>
-        <div flex layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">
-            <md-toolbar layout="row" class="md-whiteframe-z1">
-              <md-button class="menu" hide-gt-sm ng-click="shell.toggleSidenav()">
-                <md-icon md-font-set="material-icons">menu</md-icon>
-              </md-button>
-              <div class="md-toolbar-tools" ng-include="page.toolbar"></div>
+        <div layout="column" class="relative" layout-fill role="main">
+            <md-button class="md-fab md-fab-bottom-right" aria-label="Add" 
+                ng-click="page.onAdd($event)">
+                <md-icon md-font-set="material-icons">add</md-icon>
+            </md-button>
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <md-button hide-gt-sm ng-click="shell.toggleSidenav()">
+                        <md-icon md-font-set="material-icons">menu</md-icon>
+                    </md-button>
+                    <h3>{{page.title}}</h3>
+                    <span flex></span>
+                    <md-button area-label="More">
+                        <md-icon md-font-set="material-icons">more_vert</md-icon>
+                    </md-button>
+                </div>
             </md-toolbar>
-            <md-content flex id="content">
-                <ng-view></ng-view>
+            <md-content flex md-scroll-y>
+                <div layout="column" layout-fill layout-padding>
+                    <div class="inset" hide-sm></div>
+                    <ng-view></ng-view>
+                </div>
             </md-content>
         </div>
     </body>

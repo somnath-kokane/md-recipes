@@ -6,7 +6,8 @@
   "scripts": {
     "build-js": "browserify -t brfs app/src/index.js -o public/bundle.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run build-js && node server.js"
+    "start": "npm run build-js && node server.js",
+    "postinstall": "npm start"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,7 @@
     "angular-animate": "./app/lib/angular-animate.js",
     "angular-aria": "./app/lib/angular-aria.js",
     "angular-material": "./app/lib/angular-material.js",
-    "angular-route": "./app/lib/angular-route.js"
+    "angular-route": "./app/lib/angular-route.js",
+    "angular-messages": "./app/lib/angular-messages.js"
   }
 }

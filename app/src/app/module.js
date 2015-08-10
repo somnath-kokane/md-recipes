@@ -1,7 +1,15 @@
 'use strict';
 
 angular
-    .module('app', [require('angular-material'), require('angular-route')])
+    .module('app', [
+        require('angular-material'), 
+        require('angular-route'), 
+        require('angular-messages')
+    ])
+    .constant('appConfig', {
+        env: 'demo',
+        apiUrl: '/'
+    })
     .config(['$routeProvider', '$locationProvider', config])
     .run(['$rootScope', '$templateCache', run]);
 

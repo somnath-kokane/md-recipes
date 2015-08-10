@@ -3,7 +3,7 @@
 var fs = require('fs');
 
 angular
-    .module('app.category', [])
+    .module('app.category', ['app'])
     .config(['$routeProvider', config])
     .run(['$templateCache', run]);
 
@@ -46,6 +46,16 @@ function run($templateCache){
     );
     $templateCache.put(
         'category/list/toolbar.html', 
-        fs.readFileSync(__dirname + '/templates/list/toolbar.html', 'utf8')
+        fs.readFileSync(__dirname + '/templates/list-toolbar.html', 'utf8')
+    );
+
+    $templateCache.put(
+        'category/detail/toolbar.html',
+        fs.readFileSync(__dirname + '/templates/detail-toolbar.html', 'utf8')
+    );
+
+    $templateCache.put(
+        'category/form/toolbar.html',
+        fs.readFileSync(__dirname + '/templates/form-toolbar.html', 'utf8')
     );
 }

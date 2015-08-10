@@ -1,2 +1,40 @@
-<p>form</p>
-<pre>{{category|json}}</pre>
+<md-dialog>
+<form name="categoryForm" 
+    ng-submit="categoryForm.$valid && save();" novalidate>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2><span>{{category.title}}</span></h2>
+            <span flex></span>
+            <md-button ng-click="close('close')" type="button">
+                <md-icon md-font-set="material-icons">clear</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+    <md-input-container>
+        <label>Title</label>
+        <input type="text" name="title" ng-model="category.title" required>
+        <div ng-messages="categoryForm.title.$error">
+            <div ng-message="required">This is required.</div>
+        </div>
+    </md-input-container>
+    <md-input-container>
+        <label>Image Url</label>
+        <input type="text" name="image" ng-model="category.image">
+    </md-input-container>
+    <md-input-container>
+        <label>Description</label>
+        <textarea columns="1" name="description" ng-model="category.description"></textarea>
+    </md-input-container>
+    <div class="md-actions" layout="row">
+        <span flex></span>
+        <md-button ng-click="close('cancel')" class="md-primary" type="button">
+            Cancel
+        </md-button>
+        <md-button class="md-primary" ng-disabled="categoryForm.$invalid">
+            Save
+        </md-button>
+    </div>
+    </md-dialog-content>
+</form>
+</md-dialog>

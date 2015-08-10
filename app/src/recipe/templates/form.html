@@ -1,1 +1,40 @@
-<pre>{{vm.recipe|json}}</pre>
+<md-dialog>
+<form name="recipeForm" 
+    ng-submit="recipeForm.$valid && save();" novalidate>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2><span>{{recipe.title}}</span></h2>
+            <span flex></span>
+            <md-button ng-click="close('close')" type="button">
+                <md-icon md-font-set="material-icons">clear</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+    <md-input-container>
+        <label>Title</label>
+        <input type="text" name="title" ng-model="recipe.title" required>
+        <div ng-messages="recipeForm.title.$error">
+            <div ng-message="required">This is required.</div>
+        </div>
+    </md-input-container>
+    <md-input-container>
+        <label>Image Url</label>
+        <input type="text" name="image" ng-model="recipe.image">
+    </md-input-container>
+    <md-input-container>
+        <label>Description</label>
+        <textarea columns="1" name="description" ng-model="recipe.description"></textarea>
+    </md-input-container>
+    <div class="md-actions" layout="row">
+        <span flex></span>
+        <md-button ng-click="close('cancel')" class="md-primary" type="button">
+            Cancel
+        </md-button>
+        <md-button class="md-primary" ng-disabled="recipeForm.$invalid">
+            Save
+        </md-button>
+    </div>
+    </md-dialog-content>
+</form>
+</md-dialog>

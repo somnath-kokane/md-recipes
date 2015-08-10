@@ -1,18 +1,21 @@
 <md-grid-list
-      md-cols-sm="1" md-cols-md="2" md-cols-gt-md="2" 
-      md-row-height-gt-md="4:3" md-row-height="4:3">
-    <md-grid-tile ng-repeat="item in vm.recipes">
+      md-cols-gt-md="3" md-cols-md="2" md-cols-sm="1" 
+      md-gutter="12px" md-row-height="1:1">
+    <md-grid-tile ng-repeat="item in vm.recipes" layout-padding>
     <md-card>
-        <a href="javascript:void(0)" 
-            ng-click="shell.locationPath('/recipe/' + item._id + '/detail')">
-            <img class="md-card-image" ng-src="{{item.image}}" alt="{{item.title"}}>
-        </a>
+        <img class="md-card-image" ng-src="{{item.image}}" alt="{{item.title}}">
         <md-card-content>
-            <a href="javascript:void(0)" 
-                ng-click="shell.locationPath('/recipe/' + item._id + '/detail')">
-                <h2 class="md-title">{{item.title}}</h2>
-            </a>
+            <h3 class="md-title">{{item.title}}</h3>
+            <p>{{item.description}}</p>
         </md-card-content>
+        <div class="md-actions" layout="row" layout-align="end center">
+            <md-button class="md-icon-button" ng-click="vm.onEdit($event, item)">
+                <md-icon md-font-set="material-icons">create</md-icon>
+            </md-button>
+            <md-button class="md-icon-button" ng-click="vm.onDelete($event, item)">
+                <md-icon md-font-set="material-icons">delete</md-icon>
+            </md-button>
+        </div>
     </md-card>
     </md-grid-tile>
 </md-grid-list>

@@ -3,7 +3,7 @@
 var fs = require('fs');
 
 angular
-    .module('app.recipe', [])
+    .module('app.recipe', ['app'])
     .config(['$routeProvider', config])
     .run(['$templateCache', run]);
 
